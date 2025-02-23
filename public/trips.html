@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Tracker</title>
+    <title>Travel Tracker Trips</title>
     <style>
         :root {
             /* Nature-inspired color palette */
@@ -143,38 +143,37 @@
             }
         }
     </style>
-    <script src="services/trips.js"></script>
+    <script>
+        window.onload = function() {
+            // Get data from sessionStorage
+            const data = JSON.parse(sessionStorage.getItem('pageData'));
+            
+            // Insert into div
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h2>Trips</h2>
+                <p>${JSON.stringify(data)}</p>
+            `;
+            
+            // Optional: Clear the storage
+            sessionStorage.removeItem('pageData');
+        }
+    </script>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Travel Tracker</h1>
+            <h1>All Trips</h1>
         </div>
     </header>
 
     <main class="container">
         <section class="hero">
-            <h1>Track Your Adventures</h1>
-            <p>Travel with confidence, not financial surprises</p>
+            <h1>All of your travels</h1>
         </section>
 
         <div class="card-container">
-            <div class="card">
-                <h2>All Trips</h2>
-                <p>Review past trips from around the globe. Share your detailed journey with other fellow travelers.</p>
-                <a href="/trips" class="btn">View All Trips</a>
-            </div>
-
-            <div class="card">
-                <h2>Start Tracking</h2>
-                <p>Begin your journey through Earth's most beautiful destinations. Create memories that last a lifetime.</p>
-                <a href="/login" class="btn">Get Started</a>
-            </div>
-
-            <div class="card">
-                <h2>Budget Report</h2>
-                <p>Set a guideline for your next expedition and get out there to explore the world with confidence.</p>
-                <a href="/my-trips" class="btn">View My Trips</a>
+            <div id="result" class="card">
             </div>
         </div>
     </main>
