@@ -22,7 +22,7 @@ async function getMultiple(page = 1){
 async function createTrip(){
     const offset = helper.getOffset(page, config.listPerPage);
     
-    // TODO Eva: We'll need to use an insert statement 
+    // TODO: We'll need to use an insert statement 
     const rows = await db.query(
         `SELECT id, name, userId 
         FROM trips LIMIT ${offset},${config.listPerPage}
