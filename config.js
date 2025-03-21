@@ -8,6 +8,6 @@ const config = {
         database: "psd",
         connectTimeout: 60000,
     },
-    listPerPage: 10,
+    listPerPage: 100,
 };
 module.exports = config;

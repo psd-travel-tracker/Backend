@@ -5,7 +5,7 @@ const currentTrips = require('../services/trips');
 // This connects my trips route (api that returns json vs view which is what the user sees)
 router.get('/', async function(req, res, next) {
     try {
-        res.json(await currentTrips.getMultiple(req.query.page));
+        res.json(await currentTrips.getTrips(req.query.page));
     } catch (err) {
         console.error(`Error while getting current trips `, err.message);
         next(err);
@@ -16,11 +16,17 @@ router.get('/', async function(req, res, next) {
 // returns the TripId of the new trip so the user can see
 router.post('/', async function(req, res, next) {
     try {
+        const tripData = req.body;
         // Extract the pertinent info from req to pass as an object to createTrip
         // Refer to express docs to see how to pass the necessary info from req
-        res.json(await currentTrips.createTrip());
+        const result = await currentTrips.createTrip(tripData);
+        if (result.error) {
+            return res.status(400).json(result);
+        }
+        // Return success response
+        res.status(201).json(result);
     } catch (err) {
-        console.error(`Error while getting current trips `, err.message);
+        console.error(`Error while creating a new trip `, err.message);
         next(err);
     }
 });
