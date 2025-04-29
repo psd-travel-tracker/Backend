@@ -1,13 +1,14 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
-
+// These functions represent application-centric tasks whereas
+// the functions in our services module handle the management of HTTP requests and responses
 async function getTrips(page = 1){
     const offset = helper.getOffset(page, config.listPerPage);
     
     const rows = await db.query(
         `SELECT id, name, userId 
-        FROM trips LIMIT ${offset},${config.listPerPage}`
+        FROM trip LIMIT ${offset},${config.listPerPage}`
     );
     const data = helper.emptyOrRows(rows);
     const meta = {page};
@@ -30,7 +31,7 @@ async function createTrip(tripData){
         }
 
         const result = await db.query(
-            `INSERT INTO trips 
+            `INSERT INTO trip 
                 (name, userId)
                 VALUES 
                 (?, ?)`,

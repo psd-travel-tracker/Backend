@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const currentTrips = require('../services/trips');
-/* GET trips. */
-// This connects my trips route (api that returns json vs view which is what the user sees)
+
+// These trip-specific routes "listen" for specific requests coming from the frontend to this endpoint
+// and call "handler" or callback functions that are meant to perform a specific task or in the simplest
+// sense, query for specific data.
 router.get('/', async function(req, res, next) {
     try {
         res.json(await currentTrips.getTrips(req.query.page));
