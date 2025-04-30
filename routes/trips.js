@@ -14,6 +14,22 @@ router.get('/', async function(req, res, next) {
     }
 });
 
+// DELETE a trip by ID
+router.delete('/:id', async function(req, res, next) {
+    try {
+      const tripId = req.params.id;
+      const result = await currentTrips.deleteTrip(tripId);
+      if (result.error) {
+        return res.status(500).json(result);
+      }
+      res.json(result);
+    } catch (err) {
+      console.error(`Error while deleting trip`, err.message);
+      next(err);
+    }
+  });
+
+  
 // TODO: Our post to create a new trip. The json that's returned should contain a link to the new trip i.e. 
 // returns the TripId of the new trip so the user can see
 router.post('/', async function(req, res, next) {
@@ -31,5 +47,7 @@ router.post('/', async function(req, res, next) {
         console.error(`Error while creating a new trip `, err.message);
         next(err);
     }
+    console.log("Received POST data:", req.body);
+
 });
 module.exports = router;
