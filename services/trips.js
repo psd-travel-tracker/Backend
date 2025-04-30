@@ -58,7 +58,31 @@ async function createTrip(tripData){
   }
 }
 
+async function deleteTrip(tripId) {
+    try {
+      const result = await db.query(
+        `DELETE FROM trip WHERE id = ?`,
+        [tripId]
+      );
+  
+      let message = 'Error deleting trip';
+      if (result.affectedRows) {
+        message = 'Trip deleted successfully';
+      } else {
+        message = 'Trip not found';
+      }
+  
+      return { message };
+    } catch (error) {
+      console.error('deleteTrip error:', error.message);
+      return { error: true, message: error.message };
+    }
+  }
+  
+
 module.exports = {
     getTrips,
-    createTrip
+    createTrip,
+    deleteTrip
+    // updateTrip, 
 }
