@@ -6,7 +6,7 @@ async function getExpenses(tripId, page = 1){
     const offset = helper.getOffset(page, config.listPerPage);
     
     const rows = await db.query(
-        `SELECT id, name, description, cost 
+        `SELECT id, name, description, cost, categoryId, tripId
         FROM expense WHERE tripId = ${tripId} LIMIT ${offset},${config.listPerPage}`,
     );
     const data = helper.emptyOrRows(rows);
@@ -29,14 +29,16 @@ async function createExpense(expenseData){
         console.log(expenseData)
         const result = await db.query(
             `INSERT INTO expense 
-                (name, description, cost, tripId)
+                (name, description, cost, tripId, categoryId,userId)
                 VALUES 
-                (?, ?, ?, ?)`,
+                (?, ?, ?, ?,?,?)`,
             [
                 expenseData.name,
                 expenseData.description,
                 Number(expenseData.cost),
-                Number(expenseData.tripId)
+                Number(expenseData.tripId),
+                Number(expenseData.categoryId),
+                Number(expenseData.userId)
             ]
         );
 
