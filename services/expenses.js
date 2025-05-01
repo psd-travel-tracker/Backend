@@ -64,7 +64,29 @@ async function createExpense(expenseData){
   }
 }
 
+async function deleteExpense(expenseId) {
+    try {
+      const result = await db.query(
+        `DELETE FROM expense WHERE id = ?`,
+        [expenseId]
+      );
+  
+      let message = 'Error deleting expense';
+      if (result.affectedRows) {
+        message = 'Expense deleted successfully';
+      } else {
+        message = 'Expense not found';
+      }
+  
+      return { message };
+    } catch (error) {
+      console.error('deleteExpense error:', error.message);
+      return { error: true, message: error.message };
+    }
+  }
+
 module.exports = {
     getExpenses,
-    createExpense
+    createExpense,
+    deleteExpense
 }

@@ -15,6 +15,20 @@ router.get('/', async function(req, res, next) {
     }
 });
 
+router.delete('/:id', async function(req, res, next) {
+    try {
+      const expenseId = req.params.id;
+      const result = await currentTrips.deleteTrip(expenseId);
+      if (result.error) {
+        return res.status(500).json(result);
+      }
+      res.json(result);
+    } catch (err) {
+      console.error(`Error while deleting expense`, err.message);
+      next(err);
+    }
+  });
+
 router.post('/', async function(req, res, next) {
     try {
         let expenseData = req.body;
@@ -33,4 +47,4 @@ router.post('/', async function(req, res, next) {
         next(err);
     }
 });
-module.exports = router;
+module.exports = router; 
