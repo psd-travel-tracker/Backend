@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const tripExpenses = require('../services/expenses');
+const db = require('../services/db');
 
 router.get('/', async function(req, res, next) {
     try {
@@ -48,4 +49,28 @@ router.post('/', async function(req, res, next) {
         next(err);
     }
 });
+
+router.put('/:id', async function (req, res, next) {
+  try {
+    const expenseId = req.params.id;
+    const { name, description, cost, categoryId, userId } = req.body;
+
+    const result = await db.query(
+      `UPDATE expense
+       SET name = ?, description = ?, cost = ?, categoryId = ?, userId = ?
+       WHERE id = ?`,
+      [name, description, cost, categoryId, userId, expenseId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Expense not found' });
+    }
+
+    res.status(200).json({ message: 'Expense updated successfully' });
+  } catch (err) {
+    console.error('PUT /expenses/:id failed:', err.message);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router; 
