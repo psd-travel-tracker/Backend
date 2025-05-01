@@ -18,7 +18,8 @@ router.get('/', async function(req, res, next) {
 router.delete('/:id', async function(req, res, next) {
     try {
       const expenseId = req.params.id;
-      const result = await currentTrips.deleteTrip(expenseId);
+      const result = await tripExpenses.deleteExpense(expenseId);
+
       if (result.error) {
         return res.status(500).json(result);
       }
