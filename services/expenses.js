@@ -45,19 +45,19 @@ async function createExpense(expenseData){
         let message = 'Error creating expense';
     
         if (result.affectedRows) {
-        message = 'Expense created successfully';
-        return {
-            data: {
-                id: result.insertId,
-                name: result.name,
-                description: result.description,
-                cost: result.cost,
-                tripId: result.tripId
-            },
-            message
-        };
-    }
-    return { error: true, message };
+            message = 'Expense created successfully';
+            return {
+                data: {
+                    id: result.insertId,
+                    name: result.name,
+                    description: result.description,
+                    cost: result.cost,
+                    tripId: result.tripId
+                },
+                message
+            };
+        }
+        return { error: true, message };
   } catch (error) {
     console.error('createExpense error:', error.message);
     return { error: true, message: error.message };
